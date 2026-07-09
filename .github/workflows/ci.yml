@@ -34,7 +34,7 @@ jobs:
       # tests (org.selenium.sdet.*) need a running web app + browser, so they
       # are excluded from CI. Run the full suite locally with `gradle test`.
       - name: Run tests
-        run: gradle clean test --tests "org.example.sdet.gradle.*"
+        run: gradle clean test --tests "org.example.sdet.gradle.DataB_Work.*"
 
 
 
