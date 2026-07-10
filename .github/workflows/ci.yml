@@ -61,10 +61,10 @@ jobs:
         continue-on-error: true
         uses: simple-elf/allure-report-action@master
         with:
-          allure-results: build/allure-results
-          allure-report: allure-report
+          allure_results: build/allure-results
+          allure_report: allure-report
           gh_pages: justin-gh-pages
-          allure-history: allure-history
+          allure_history: allure-history
 
       - name: 8. Upload Allure Report
         if: always()
