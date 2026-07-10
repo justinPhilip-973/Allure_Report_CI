@@ -19,6 +19,8 @@ val flywayVersion = "10.22.0"
 //val postgresqlVersion = "42.7.4"
 val mysqlLibVersion = "9.4.0"
 
+
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -40,11 +42,13 @@ dependencies {
     testImplementation("io.cucumber:cucumber-junit-platform-engine")
     testImplementation("io.cucumber:cucumber-picocontainer")
     testImplementation("org.junit.platform:junit-platform-suite")
-    testImplementation("io.qameta.allure:allure-cucumber7-jvm")
+
     testImplementation("com.aventstack:extentreports:$extentVersion")
     testImplementation("tech.grasshopper:extentreports-cucumber7-adapter:$extentCucumberAdapterVersion")
     testImplementation("org.slf4j:slf4j-simple:$slf4jVersion")
 
+    testImplementation("io.qameta.allure:allure-cucumber7-jvm")
+    testImplementation("io.qameta.allure:allure-junit5")
 
 //    testImplementation("org.testcontainers:testcontainers-postgresql:$testcontainersVersion")
 //    testImplementation("org.flywaydb:flyway-database-postgresql:${flywayVersion}")
@@ -91,13 +95,30 @@ tasks.test {
 }
 
 val testContainerCITests by tasks.registering(Test::class) {
-    description = "Runs the safe no-browser Week 6 Day 1 structure checks."
+    description = "Runs the safe CI for Week 6 Day 3."
     group = "verification"
     useProjectTestClasses()
     useJUnitPlatform()
     include("**/OrderTest.class")
 }
 
+val allureInsightTests by tasks.registering(Test::class) {
+    description = "Runs the safe CI for Week 6 Day 4."
+    group = "verification"
+    useProjectTestClasses()
+    useJUnitPlatform()
+    include("**/AllureTestsForReportingInsight.class")
+}
+
+tasks.register("runAllureReportTestsFor_CI"){
+    description = "Running all "
+    group = "verification"
+
+    dependsOn(
+        testContainerCITests,
+        allureInsightTests
+    )
+}
 
 val w6d1StructureTest by tasks.registering(Test::class) {
     description = "Runs the safe no-browser Week 6 Day 1 structure checks."
