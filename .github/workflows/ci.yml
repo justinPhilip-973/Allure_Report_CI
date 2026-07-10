@@ -1,83 +1,62 @@
-name: Java CI
+name: Allure Report CI
 
 on:
   push:
-    branches: [main, master]
+    branches:
+      - main
   pull_request:
-    branches: [main, master]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup JDK 22
+      - name: Set up JDK 22
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '22'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.10.2'
+      - name: Grant execute permission for Gradle
+        run: chmod +x gradlew
 
-      - name: Run CI Test Suites
-        if: always()
-        continue-on-error: true
+      - name: Run tests
+        run: ./gradlew clean test
+
+      - name: Verify Allure results
         run: |
-          gradle clean runAllureReportTestsFor_CI
+          echo "Looking for allure-results..."
+          find . -type d -name "allure-results"
+          ls -R build/allure-results
 
-      - name: Checkout justin-gh-pages Branch
-        if: always()
-        continue-on-error: true
+      - name: Load Allure history
         uses: actions/checkout@v4
-        with:
-          ref: justin-gh-pages
-          path: justin-gh-pages
-
-      - name: Verify Allure Results
         if: always()
-        run: |
-          echo "Looking for allure-results folders..."
-          find . -type d -name allure-results
-
-          echo "Listing first few result files..."
-          find build/allure-results -type f | head -20 || true
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
 
       - name: Generate Allure Report
         if: always()
-        continue-on-error: true
         uses: simple-elf/allure-report-action@master
         with:
-          allure-results: build/allure-results
-          allure-report: allure-report
-          gh_pages: justin-gh-pages
-          allure-history: allure-history
+          allure_results: build/allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+          gh_pages: gh-pages
+          keep_reports: 20
 
-      - name: Upload Allure Report Artifact
+      - name: Publish Allure Report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: allure-report
-          path: allure-report
-
-      - name: Deploy Allure Report
-        if: always()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          publish_branch: justin-gh-pages
-          publish_dir: allure-history
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Display Report URL
-        if: always()
-        run: |
-          echo "Allure Report Published"
-          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          publish_branch: gh-pages
+          publish_dir: allure-history
