@@ -9,8 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Epic("Framework Hardening")
 @Feature("Reporting Insights")
@@ -122,9 +121,11 @@ public class AllureTestsForReportingInsight {
         Allure.label("failureType", "product-defect");
         Allure.label("classification", "failed");
         String trackingReference = "";
-        assertTrue(
-                trackingReference != null && !trackingReference.isBlank(),
-                "Completed orders must provide a shipment tracking reference");
+        String check = "";
+//        assertTrue(
+//                trackingReference != null && !trackingReference.isBlank(),
+//                "Completed orders must provide a shipment tracking reference");
+        assertFalse(check.isEmpty());
     }
 
     @Test
