@@ -75,10 +75,8 @@ public class AllureTestsForReportingInsight {
             rather than a product defect.
             """)
     void reportingServiceTimeoutShouldBeClassifiedAsFlaky() {
-
         Allure.label("failureType", "timeout");
         Allure.label("classification", "flaky");
-
         throw new RuntimeException(
                 "timeout while waiting for reporting service response");
     }
@@ -92,10 +90,8 @@ public class AllureTestsForReportingInsight {
             a transient automation instability.
             """)
     void dynamicPageRefreshCanTriggerStaleElementFailure() {
-
         Allure.label("failureType", "stale-element");
         Allure.label("classification", "flaky");
-
         throw new RuntimeException(
                 "stale element reference while validating order status");
     }
@@ -109,10 +105,8 @@ public class AllureTestsForReportingInsight {
             classified as a flaky execution issue.
             """)
     void downstreamGatewayConnectionResetShouldBeFlaky() {
-
         Allure.label("failureType", "connection-reset");
         Allure.label("classification", "flaky");
-
         throw new RuntimeException(
                 "connection reset during metrics synchronization");
     }
@@ -125,12 +119,9 @@ public class AllureTestsForReportingInsight {
             reference. Missing tracking data indicates a product defect.
             """)
     void completedOrderMustExposeTrackingReference() {
-
         Allure.label("failureType", "product-defect");
         Allure.label("classification", "failed");
-
         String trackingReference = "";
-
         assertTrue(
                 trackingReference != null && !trackingReference.isBlank(),
                 "Completed orders must provide a shipment tracking reference");
@@ -145,13 +136,10 @@ public class AllureTestsForReportingInsight {
             defect because the product was never exercised.
             """)
     void frameworkDependencyShouldBeInitializedBeforeExecution() {
-
         Allure.label("failureType", "framework-initialization");
         Allure.label("classification", "broken");
-
-        Object reportingAdapter = null;
-
-        reportingAdapter.toString();
+        Object num = null;
+        num.toString();
     }
 
     @Test
@@ -164,50 +152,10 @@ public class AllureTestsForReportingInsight {
             execution path.
             """)
     void historicalAnalyticsValidationRequiresDedicatedEnvironment() {
-
         Allure.label("failureType", "environment-dependency");
         Allure.label("classification", "skipped");
     }
 
-    @Test
-    @Story("Business rule validation")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("""
-    A completed order must expose a tracking reference to downstream consumers.
-    Missing business data indicates a product defect.
-    """)
-    void completedOrderShouldExposeTrackingReference() {
-        String trackingReference = null;
-        assertTrue(
-                trackingReference != null && !trackingReference.isBlank(),
-                "Completed orders must provide a tracking reference");
-    }
-
-
-    @Test
-    @Story("Framework validation")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("""
-    An incorrectly initialized framework dependency should be treated as a test
-    defect because the product under test was never exercised.
-    """)
-    void frameworkDependencyMustBeInitializedBeforeExecution() {
-        Object reportingClient = null;
-        reportingClient.toString();
-    }
-
-
-    @Test
-    @Disabled("Demonstration: reporting dependency is not available in CI")
-    @Story("Conditional execution")
-    @Severity(SeverityLevel.MINOR)
-    @Description("""
-    Certain validation suites may be intentionally skipped until their external
-    dependencies become available.
-    """)
-    void reportingIntegrationRequiresDedicatedEnvironment() {
-        boolean workInProgress = true;
-    }
 
 }
 
