@@ -1,0 +1,13 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"An incorrectly initialized framework dependency should be treated as a test
+defect because the product under test was never exercised.
+","5","frameworkDependencyMustBeInitializedBeforeExecution()","","2026-07-10","broken","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","frameworkDependencyMustBeInitializedBeforeExecution"
+"Categories split flaky, test and product failures so each bucket has an owner.","25","categoriesPutSpecificFlakyRuleBeforeGenericBuckets()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","categoriesPutSpecificFlakyRuleBeforeGenericBuckets"
+"Certain validation suites may be intentionally skipped until their external
+dependencies become available.
+","1","reportingIntegrationRequiresDedicatedEnvironment()","","2026-07-10","skipped","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","reportingIntegrationRequiresDedicatedEnvironment"
+"A completed order must expose a tracking reference to downstream consumers.
+Missing business data indicates a product defect.
+","11","completedOrderShouldExposeTrackingReference()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","completedOrderShouldExposeTrackingReference"
+"The leadership view is the Overview page once categories, history, severity and environment exist.","2","executiveViewNeedsFourSignals()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","executiveViewNeedsFourSignals"
+"Environment metadata answers which browser, base URL and build produced the report.","2","environmentTemplateCarriesRunContext()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","environmentTemplateCarriesRunContext"
