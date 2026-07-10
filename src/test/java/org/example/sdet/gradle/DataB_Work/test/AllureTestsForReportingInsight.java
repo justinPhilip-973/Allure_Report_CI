@@ -7,6 +7,7 @@ import io.qameta.allure.Owner;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -70,6 +71,48 @@ public class AllureTestsForReportingInsight {
         assertTrue(signals.contains("trend"));
         assertTrue(signals.contains("category split"));
     }
+
+    @Test
+    @Story("Business rule validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+    A completed order must expose a tracking reference to downstream consumers.
+    Missing business data indicates a product defect.
+    """)
+    void completedOrderShouldExposeTrackingReference() {
+        String trackingReference = null;
+        assertTrue(
+                trackingReference != null && !trackingReference.isBlank(),
+                "Completed orders must provide a tracking reference");
+    }
+
+
+    @Test
+    @Story("Framework validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+    An incorrectly initialized framework dependency should be treated as a test
+    defect because the product under test was never exercised.
+    """)
+    void frameworkDependencyMustBeInitializedBeforeExecution() {
+        Object reportingClient = null;
+        reportingClient.toString();
+    }
+
+
+    @Test
+    @Disabled("Demonstration: reporting dependency is not available in CI")
+    @Story("Conditional execution")
+    @Severity(SeverityLevel.MINOR)
+    @Description("""
+    Certain validation suites may be intentionally skipped until their external
+    dependencies become available.
+    """)
+    void reportingIntegrationRequiresDedicatedEnvironment() {
+        boolean workInProgress = true;
+    }
+
+
 }
 
 
