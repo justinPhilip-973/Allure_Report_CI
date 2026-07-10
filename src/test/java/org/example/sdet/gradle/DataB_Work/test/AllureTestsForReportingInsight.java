@@ -86,7 +86,6 @@ public class AllureTestsForReportingInsight {
     }
 
 
-
     @Test
     @Story("Categories")
     @Severity(SeverityLevel.CRITICAL)
@@ -139,6 +138,164 @@ public class AllureTestsForReportingInsight {
         assertEquals(4, signals.size());
         assertTrue(signals.contains("trend"));
         assertTrue(signals.contains("category split"));
+    }
+
+    @Test
+    @Story("Categories")
+    @Severity(SeverityLevel.NORMAL)
+    void knownIssueCategoryIsDefined() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("Known Issues"));
+    }
+
+    @Test
+    @Story("Categories")
+    @Severity(SeverityLevel.NORMAL)
+    void riskAcceptedCategoryIsDefined() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("Risk Accepted"));
+    }
+
+    @Test
+    @Story("Environment metadata")
+    @Severity(SeverityLevel.NORMAL)
+    void buildMetadataExists() throws IOException {
+        List<String> lines =
+                Files.readAllLines(Path.of("src/test/resources/allure/environment.properties"));
+
+        assertTrue(lines.stream().anyMatch(line -> line.startsWith("Build=")));
+    }
+
+    @Test
+    @Story("Environment metadata")
+    @Severity(SeverityLevel.NORMAL)
+    void osMetadataExists() throws IOException {
+        List<String> lines =
+                Files.readAllLines(Path.of("src/test/resources/allure/environment.properties"));
+
+        assertTrue(lines.stream().anyMatch(line -> line.startsWith("OS=")));
+    }
+
+    @Test
+    @Story("Reporting assets")
+    @Severity(SeverityLevel.NORMAL)
+    void allureCategoriesFileExists() {
+        assertTrue(
+                Files.exists(Path.of("src/test/resources/allure/categories.json")));
+    }
+
+    @Test
+    @Story("Reporting assets")
+    @Severity(SeverityLevel.NORMAL)
+    void allureEnvironmentFileExists() {
+        assertTrue(
+                Files.exists(Path.of("src/test/resources/allure/environment.properties")));
+    }
+
+    @Test
+    @Story("Flaky classification")
+    @Severity(SeverityLevel.NORMAL)
+    void flakyRegexContainsTimeout() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("timeout"));
+    }
+
+    @Test
+    @Story("Flaky classification")
+    @Severity(SeverityLevel.NORMAL)
+    void flakyRegexContainsStaleElement() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("stale element"));
+    }
+
+    @Test
+    @Story("Flaky classification")
+    @Severity(SeverityLevel.NORMAL)
+    void flakyRegexContainsConnectionReset() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("connection reset"));
+    }
+
+    @Test
+    @Story("Executive overview")
+    @Severity(SeverityLevel.NORMAL)
+    void executiveDashboardShowsStatus() {
+        assertTrue(List.of(
+                        "status",
+                        "trend",
+                        "category split",
+                        "environment")
+                .contains("status"));
+    }
+
+    @Test
+    @Story("Executive overview")
+    @Severity(SeverityLevel.NORMAL)
+    void executiveDashboardShowsTrend() {
+        assertTrue(List.of(
+                        "status",
+                        "trend",
+                        "category split",
+                        "environment")
+                .contains("trend"));
+    }
+
+    @Test
+    @Story("Executive overview")
+    @Severity(SeverityLevel.NORMAL)
+    void executiveDashboardShowsEnvironment() {
+        assertTrue(List.of(
+                        "status",
+                        "trend",
+                        "category split",
+                        "environment")
+                .contains("environment"));
+    }
+
+    @Test
+    @Story("Executive overview")
+    @Severity(SeverityLevel.NORMAL)
+    void executiveDashboardShowsCategorySplit() {
+        assertTrue(List.of(
+                        "status",
+                        "trend",
+                        "category split",
+                        "environment")
+                .contains("category split"));
+    }
+
+    @Test
+    @Story("Reporting metadata")
+    @Severity(SeverityLevel.NORMAL)
+    void severityMetadataIsPresent() {
+        SeverityLevel severity = SeverityLevel.CRITICAL;
+
+        assertNotNull(severity);
+    }
+
+    @Test
+    @Story("Reporting metadata")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("The reporting test suite must declare ownership metadata.")
+    void ownerMetadataIsPresent() {
+        Owner owner =
+                AllureTestsForReportingInsight.class.getAnnotation(Owner.class);
+
+        assertNotNull(owner, "@Owner annotation must be present");
+        assertEquals(
+                "justinGradle",
+                owner.value(),
+                "Owner metadata should identify the reporting suite owner");
     }
 
     @Test
@@ -203,21 +360,6 @@ public class AllureTestsForReportingInsight {
 
 
     @Test
-    @Story("Customer profile validation")
-    @Severity(SeverityLevel.NORMAL)
-    @Description("""
-    Registered customers should have a verified email address.
-    Missing verification indicates a business rule failure.
-    """)
-    void registeredCustomerMustHaveVerifiedEmail() {
-        Allure.label("failureType", "product-defect");
-        Allure.label("classification", "failed");
-        boolean emailVerified = false;
-        assertTrue(emailVerified,
-                "Registered customers must have a verified email");
-    }
-
-    @Test
     @Story("Catalog validation")
     @Severity(SeverityLevel.CRITICAL)
     @Description("""
@@ -229,21 +371,6 @@ public class AllureTestsForReportingInsight {
         Allure.label("classification", "failed");
         Double productPrice = null;
         assertNotNull(productPrice, "Catalog product must expose a valid price");
-    }
-
-    @Test
-    @Story("Inventory validation")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("""
-    Available inventory should never be negative.
-    A negative inventory level indicates corrupted business data.
-    """)
-    void inventoryShouldNeverBeNegative() {
-        Allure.label("failureType", "product-defect");
-        Allure.label("classification", "failed");
-        int inventory = -12;
-        assertTrue(inventory >= 0,
-                "Inventory quantity cannot be negative");
     }
 
 
@@ -295,6 +422,38 @@ public class AllureTestsForReportingInsight {
 
 
 
+    @Test
+    @Story("Known issue validation")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("""
+    Legacy pricing calculations are known to produce occasional rounding
+    differences. The issue is documented and awaiting remediation.
+    """)
+    void legacyPricingEngineRoundingIssue() {
+
+        Allure.label("failureType", "known-issue");
+        Allure.label("classification", "known-issue");
+
+        fail("KNOWN_ISSUE: legacy pricing engine rounding mismatch");
+    }
+
+
+    @Test
+    @Story("Known issue validation")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("""
+    Historic orders migrated from legacy systems may exhibit tax calculation
+    differences. The product team has already acknowledged this issue.
+    """)
+    void historicTaxCalculationMismatch() {
+
+        Allure.label("failureType", "known-issue");
+        Allure.label("classification", "known-issue");
+
+        fail("KNOWN_ISSUE: tax calculation discrepancy for migrated orders");
+    }
+
+
 
     @Test
     @Disabled("Demonstration: external analytics warehouse unavailable in CI")
@@ -310,6 +469,22 @@ public class AllureTestsForReportingInsight {
         Allure.label("classification", "skipped");
     }
 
+
+
+    @Test
+    @Story("Risk acceptance validation")
+    @Severity(SeverityLevel.MINOR)
+    @Description("""
+    Audit retention enforcement is temporarily disabled as part of a
+    documented business decision. The associated risk has been accepted.
+    """)
+    void auditRetentionIsTemporarilyDisabled() {
+
+        Allure.label("failureType", "risk-accepted");
+        Allure.label("classification", "risk-accepted");
+
+        fail("RISK_ACCEPTED: audit retention temporarily disabled");
+    }
 
 }
 

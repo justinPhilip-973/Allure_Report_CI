@@ -6,6 +6,16 @@
     "flaky": true
   },
   {
+    "name": "Known Issues",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*KNOWN_ISSUE.*"
+  },
+  {
+    "name": "Risk Accepted",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*RISK_ACCEPTED.*"
+  },
+  {
     "name": "Test defects (broken)",
     "matchedStatuses": ["broken"]
   },
