@@ -1,12 +1,6 @@
 package org.example.sdet.gradle.DataB_Work.test;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Owner;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -73,6 +67,109 @@ public class AllureTestsForReportingInsight {
     }
 
     @Test
+    @Story("Timeout instability")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("""
+            External service latency exceeded the agreed response threshold.
+            The failure should be classified as a flaky infrastructure issue
+            rather than a product defect.
+            """)
+    void reportingServiceTimeoutShouldBeClassifiedAsFlaky() {
+
+        Allure.label("failureType", "timeout");
+        Allure.label("classification", "flaky");
+
+        throw new RuntimeException(
+                "timeout while waiting for reporting service response");
+    }
+
+    @Test
+    @Story("Stale element instability")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("""
+            The user interface refreshed while the automation framework was
+            interacting with a previously located element. This represents
+            a transient automation instability.
+            """)
+    void dynamicPageRefreshCanTriggerStaleElementFailure() {
+
+        Allure.label("failureType", "stale-element");
+        Allure.label("classification", "flaky");
+
+        throw new RuntimeException(
+                "stale element reference while validating order status");
+    }
+
+    @Test
+    @Story("Connection reset instability")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("""
+            A downstream dependency unexpectedly terminated the active network
+            session. This type of infrastructure interruption should be
+            classified as a flaky execution issue.
+            """)
+    void downstreamGatewayConnectionResetShouldBeFlaky() {
+
+        Allure.label("failureType", "connection-reset");
+        Allure.label("classification", "flaky");
+
+        throw new RuntimeException(
+                "connection reset during metrics synchronization");
+    }
+
+    @Test
+    @Story("Business rule validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+            Orders reaching the COMPLETED state must expose a shipment tracking
+            reference. Missing tracking data indicates a product defect.
+            """)
+    void completedOrderMustExposeTrackingReference() {
+
+        Allure.label("failureType", "product-defect");
+        Allure.label("classification", "failed");
+
+        String trackingReference = "";
+
+        assertTrue(
+                trackingReference != null && !trackingReference.isBlank(),
+                "Completed orders must provide a shipment tracking reference");
+    }
+
+    @Test
+    @Story("Framework dependency validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+            The reporting adapter must be initialized before test execution.
+            Failure to construct framework dependencies represents a test
+            defect because the product was never exercised.
+            """)
+    void frameworkDependencyShouldBeInitializedBeforeExecution() {
+
+        Allure.label("failureType", "framework-initialization");
+        Allure.label("classification", "broken");
+
+        Object reportingAdapter = null;
+
+        reportingAdapter.toString();
+    }
+
+    @Test
+    @Disabled("Demonstration: external analytics warehouse unavailable in CI")
+    @Story("Conditional execution")
+    @Severity(SeverityLevel.MINOR)
+    @Description("""
+            Historical analytics validation requires an external warehouse
+            environment and is intentionally skipped in the standard CI
+            execution path.
+            """)
+    void historicalAnalyticsValidationRequiresDedicatedEnvironment() {
+
+        Allure.label("failureType", "environment-dependency");
+        Allure.label("classification", "skipped");
+    }
+
+    @Test
     @Story("Business rule validation")
     @Severity(SeverityLevel.CRITICAL)
     @Description("""
@@ -112,9 +209,7 @@ public class AllureTestsForReportingInsight {
         boolean workInProgress = true;
     }
 
-
 }
-
 
 
 
