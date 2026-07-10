@@ -1,0 +1,48 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"A downstream dependency unexpectedly terminated the active network
+session. This type of infrastructure interruption should be
+classified as a flaky execution issue.
+","12","downstreamGatewayConnectionResetShouldBeFlaky()","","2026-07-10","broken","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","downstreamGatewayConnectionResetShouldBeFlaky"
+"","2","testDefectCategoryIsDefined()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","testDefectCategoryIsDefined"
+"Orders reaching the COMPLETED state must expose a shipment tracking
+reference. Missing tracking data indicates a product defect.
+","8","completedOrderMustExposeTrackingReference()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","completedOrderMustExposeTrackingReference"
+"","5","flakyCategoryIsDefined()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","flakyCategoryIsDefined"
+"Registered customers should have a verified email address.
+Missing verification indicates a business rule failure.
+","1","registeredCustomerMustHaveVerifiedEmail()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","registeredCustomerMustHaveVerifiedEmail"
+"Historical analytics validation requires an external warehouse
+environment and is intentionally skipped in the standard CI
+execution path.
+","0","historicalAnalyticsValidationRequiresDedicatedEnvironment()","","2026-07-10","skipped","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","historicalAnalyticsValidationRequiresDedicatedEnvironment"
+"Products visible in the catalog must expose pricing information.
+Missing pricing prevents purchasing decisions.
+","4","catalogProductMustExposePrice()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","catalogProductMustExposePrice"
+"","3","baseUrlMetadataExists()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","baseUrlMetadataExists"
+"","1","leadershipDashboardRequiresTrendData()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","leadershipDashboardRequiresTrendData"
+"Categories split flaky, test and product failures so each bucket has an owner.","1","categoriesPutSpecificFlakyRuleBeforeGenericBuckets()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","categoriesPutSpecificFlakyRuleBeforeGenericBuckets"
+"The leadership view is the Overview page once categories, history, severity and environment exist.","3","executiveViewNeedsFourSignals()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","executiveViewNeedsFourSignals"
+"The user interface refreshed while the automation framework was
+interacting with a previously located element. This represents
+a transient automation instability.
+","29","dynamicPageRefreshCanTriggerStaleElementFailure()","","2026-07-10","broken","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","dynamicPageRefreshCanTriggerStaleElementFailure"
+"","1","leadershipDashboardRequiresEnvironmentData()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","leadershipDashboardRequiresEnvironmentData"
+"Orders submitted through checkout must contain at least one line item.
+Empty orders represent an invalid transaction.
+","2","orderMustContainAtLeastOneItem()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","orderMustContainAtLeastOneItem"
+"Administrative actions require elevated privileges.
+Executing an administrative workflow as a standard user indicates a product defect.
+","6","adminWorkflowShouldRequireAdminRole()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","adminWorkflowShouldRequireAdminRole"
+"","1","browserMetadataExists()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","browserMetadataExists"
+"","33","productDefectCategoryIsDefined()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","productDefectCategoryIsDefined"
+"Available inventory should never be negative.
+A negative inventory level indicates corrupted business data.
+","2","inventoryShouldNeverBeNegative()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","inventoryShouldNeverBeNegative"
+"External service latency exceeded the agreed response threshold.
+The failure should be classified as a flaky infrastructure issue
+rather than a product defect.
+","2","reportingServiceTimeoutShouldBeClassifiedAsFlaky()","","2026-07-10","broken","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","reportingServiceTimeoutShouldBeClassifiedAsFlaky"
+"Environment metadata answers which browser, base URL and build produced the report.","2","environmentTemplateCarriesRunContext()","","2026-07-10","passed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","environmentTemplateCarriesRunContext"
+"Orders marked as shipped should contain a carrier reference.
+Missing carrier information indicates a product defect.
+","3","shippedOrderMustContainCarrierReference()","","2026-07-10","failed","2026-07-10","","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","org.example.sdet.gradle.DataB_Work.test.AllureTestsForReportingInsight","shippedOrderMustContainCarrierReference"
