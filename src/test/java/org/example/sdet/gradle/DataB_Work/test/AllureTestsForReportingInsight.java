@@ -277,7 +277,21 @@ public class AllureTestsForReportingInsight {
                 "Administrative workflow must require admin privileges");
     }
 
-
+    @Test
+    @Story("Business rule validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+    Orders reaching the COMPLETED state must expose a shipment tracking
+    reference. Missing tracking data indicates a product defect.
+    """)
+    void completedOrderMustExposeTrackingReference() {
+        Allure.label("failureType", "product-defect");
+        Allure.label("classification", "failed");
+        String trackingReference = "";
+        assertTrue(
+                trackingReference != null && !trackingReference.isBlank(),
+                "Completed orders must provide a shipment tracking reference");
+    }
 
 
 
