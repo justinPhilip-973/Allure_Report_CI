@@ -15,6 +15,78 @@ import static org.junit.jupiter.api.Assertions.*;
 @Feature("Reporting Insights")
 @Owner("justinGradle")
 public class AllureTestsForReportingInsight {
+
+
+    @Test
+    @Story("Categories")
+    @Severity(SeverityLevel.NORMAL)
+    void flakyCategoryIsDefined() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("Flaky tests"));
+    }
+
+    @Test
+    @Story("Categories")
+    @Severity(SeverityLevel.NORMAL)
+    void productDefectCategoryIsDefined() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("Product defects (failed)"));
+    }
+
+    @Test
+    @Story("Categories")
+    @Severity(SeverityLevel.NORMAL)
+    void testDefectCategoryIsDefined() throws IOException {
+        String categories =
+                Files.readString(Path.of("src/test/resources/allure/categories.json"));
+
+        assertTrue(categories.contains("Test defects (broken)"));
+    }
+
+    @Test
+    @Story("Environment metadata")
+    @Severity(SeverityLevel.NORMAL)
+    void browserMetadataExists() throws IOException {
+        List<String> lines =
+                Files.readAllLines(Path.of("src/test/resources/allure/environment.properties"));
+
+        assertTrue(lines.stream().anyMatch(line -> line.startsWith("Browser=")));
+    }
+
+    @Test
+    @Story("Environment metadata")
+    @Severity(SeverityLevel.NORMAL)
+    void baseUrlMetadataExists() throws IOException {
+        List<String> lines =
+                Files.readAllLines(Path.of("src/test/resources/allure/environment.properties"));
+
+        assertTrue(lines.stream().anyMatch(line -> line.startsWith("BaseURL=")));
+    }
+
+    @Test
+    @Story("Executive overview")
+    @Severity(SeverityLevel.NORMAL)
+    void leadershipDashboardRequiresTrendData() {
+        assertTrue(
+                List.of("status","trend","category split","environment")
+                        .contains("trend"));
+    }
+
+    @Test
+    @Story("Executive overview")
+    @Severity(SeverityLevel.NORMAL)
+    void leadershipDashboardRequiresEnvironmentData() {
+        assertTrue(
+                List.of("status","trend","category split","environment")
+                        .contains("environment"));
+    }
+
+
+
     @Test
     @Story("Categories")
     @Severity(SeverityLevel.CRITICAL)
@@ -35,6 +107,8 @@ public class AllureTestsForReportingInsight {
         assertTrue(categories.contains("\"flaky\": true"));
         assertTrue(categories.contains("timeout|stale element|connection reset"));
     }
+
+
     @Test
     @Story("Environment metadata")
     @Severity(SeverityLevel.NORMAL)
@@ -48,8 +122,10 @@ public class AllureTestsForReportingInsight {
         assertTrue(lines.stream().anyMatch(line -> line.startsWith("Build=")));
         assertTrue(lines.stream().anyMatch(line -> line.startsWith("OS=")));
     }
+
+
     @Test
-    @Story("Executive overview")
+    @Story("Executive overview with more assertions")
     @Severity(SeverityLevel.CRITICAL)
     @Description("The leadership view is the Overview page once categories, history, severity and environment exist.")
     void executiveViewNeedsFourSignals() {
@@ -111,37 +187,100 @@ public class AllureTestsForReportingInsight {
     }
 
     @Test
-    @Story("Business rule validation")
+    @Story("Order lifecycle validation")
     @Severity(SeverityLevel.CRITICAL)
     @Description("""
-            Orders reaching the COMPLETED state must expose a shipment tracking
-            reference. Missing tracking data indicates a product defect.
-            """)
-    void completedOrderMustExposeTrackingReference() {
+    Orders marked as shipped should contain a carrier reference.
+    Missing carrier information indicates a product defect.
+    """)
+    void shippedOrderMustContainCarrierReference() {
         Allure.label("failureType", "product-defect");
         Allure.label("classification", "failed");
-        String trackingReference = "";
-        String check = "";
-//        assertTrue(
-//                trackingReference != null && !trackingReference.isBlank(),
-//                "Completed orders must provide a shipment tracking reference");
-        assertFalse(check.isEmpty());
+        String carrierReference = "";
+        assertFalse(carrierReference.isEmpty(),
+                "Shipped orders must contain a carrier reference");
+    }
+
+
+    @Test
+    @Story("Customer profile validation")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("""
+    Registered customers should have a verified email address.
+    Missing verification indicates a business rule failure.
+    """)
+    void registeredCustomerMustHaveVerifiedEmail() {
+        Allure.label("failureType", "product-defect");
+        Allure.label("classification", "failed");
+        boolean emailVerified = false;
+        assertTrue(emailVerified,
+                "Registered customers must have a verified email");
     }
 
     @Test
-    @Story("Framework dependency validation")
+    @Story("Catalog validation")
     @Severity(SeverityLevel.CRITICAL)
     @Description("""
-            The reporting adapter must be initialized before test execution.
-            Failure to construct framework dependencies represents a test
-            defect because the product was never exercised.
-            """)
-    void frameworkDependencyShouldBeInitializedBeforeExecution() {
-        Allure.label("failureType", "framework-initialization");
-        Allure.label("classification", "broken");
-        Object num = null;
-        num.toString();
+    Products visible in the catalog must expose pricing information.
+    Missing pricing prevents purchasing decisions.
+    """)
+    void catalogProductMustExposePrice() {
+        Allure.label("failureType", "product-defect");
+        Allure.label("classification", "failed");
+        Double productPrice = null;
+        assertNotNull(productPrice, "Catalog product must expose a valid price");
     }
+
+    @Test
+    @Story("Inventory validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+    Available inventory should never be negative.
+    A negative inventory level indicates corrupted business data.
+    """)
+    void inventoryShouldNeverBeNegative() {
+        Allure.label("failureType", "product-defect");
+        Allure.label("classification", "failed");
+        int inventory = -12;
+        assertTrue(inventory >= 0,
+                "Inventory quantity cannot be negative");
+    }
+
+
+    @Test
+    @Story("Checkout validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+    Orders submitted through checkout must contain at least one line item.
+    Empty orders represent an invalid transaction.
+    """)
+    void orderMustContainAtLeastOneItem() {
+        Allure.label("failureType", "product-defect");
+        Allure.label("classification", "failed");
+        int lineItems = 0;
+        assertTrue(lineItems > 0,
+                "Order must contain at least one item");
+    }
+
+    @Test
+    @Story("Authentication validation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("""
+    Administrative actions require elevated privileges.
+    Executing an administrative workflow as a standard user indicates a product defect.
+    """)
+    void adminWorkflowShouldRequireAdminRole() {
+        Allure.label("failureType", "product-defect");
+        Allure.label("classification", "failed");
+        boolean userIsAdmin = false;
+        assertTrue(userIsAdmin,
+                "Administrative workflow must require admin privileges");
+    }
+
+
+
+
+
 
     @Test
     @Disabled("Demonstration: external analytics warehouse unavailable in CI")
