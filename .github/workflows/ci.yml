@@ -26,37 +26,42 @@ jobs:
       - name: Grant execute permission for Gradle
         run: chmod +x gradlew
 
+      - name: Verify Gradle Wrapper
+        run: |
+          ls -R gradle
+          test -f gradle/wrapper/gradle-wrapper.jar
+
       - name: Run tests
         run: ./gradlew clean test
 
-      - name: Verify Allure results
+      - name: Verify Allure Results
+        if: always()
         run: |
-          echo "Looking for allure-results..."
           find . -type d -name "allure-results"
           ls -R build/allure-results
 
-      - name: Load Allure history
-        uses: actions/checkout@v4
+      - name: Checkout GitHub Pages
         if: always()
         continue-on-error: true
+        uses: actions/checkout@v4
         with:
-          ref: gh-pages
-          path: gh-pages
+          ref: justin-gh-pages
+          path: justin-gh-pages
 
       - name: Generate Allure Report
         if: always()
         uses: simple-elf/allure-report-action@master
         with:
+          gh_pages: justin-gh-pages
           allure_results: build/allure-results
           allure_report: allure-report
           allure_history: allure-history
-          gh_pages: gh-pages
           keep_reports: 20
 
-      - name: Publish Allure Report
+      - name: Publish Report
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
+          publish_branch: justin-gh-pages
           publish_dir: allure-history
