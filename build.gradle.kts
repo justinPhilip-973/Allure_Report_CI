@@ -1,5 +1,10 @@
 plugins {
     java
+    id("io.qameta.allure") version "2.12.0"
+}
+
+allure {
+    version.set("2.29.0")
 }
 
 group = "com.ust.sdet"
