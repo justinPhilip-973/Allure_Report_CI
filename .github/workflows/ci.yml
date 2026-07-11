@@ -17,24 +17,35 @@ jobs:
       - name: 1. Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 2. Setting up JDK 22
+      - name: 2. Setup JDK 22
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '22'
 
-      - name: 3. Set up Gradle
+      - name: 3. Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
 
-      - name: 4. Running CI Tests
+      - name: 4. Execute Reporting Tests
         if: always()
         continue-on-error: true
         run: |
           gradle clean runAllureReportTestsFor_CI
 
-      - name: 5. Checkout justin-gh-pages branch
+      - name: 5. Copy Allure Metadata
+        if: always()
+        run: |
+          mkdir -p build/allure-results
+
+          cp src/test/resources/allure/categories.json \
+             build/allure-results/categories.json
+
+          cp src/test/resources/allure/environment.properties \
+             build/allure-results/environment.properties
+
+      - name: 6. Checkout GH Pages History
         if: always()
         continue-on-error: true
         uses: actions/checkout@v4
@@ -42,21 +53,21 @@ jobs:
           ref: justin-gh-pages
           path: justin-gh-pages
 
-      - name: 6. Check Allure Results
+      - name: 7. Verify Allure Inputs
         if: always()
         run: |
-          echo "===== Allure folders ====="
-          find . -type d -name allure-results
-
-          echo ""
           echo "===== build/allure-results ====="
-          ls -la build/allure-results || true
+          ls -la build/allure-results
 
           echo ""
-          echo "===== target/allure-results ====="
-          ls -la target/allure-results || true
+          echo "===== categories.json ====="
+          cat build/allure-results/categories.json
 
-      - name: 7. Generate Allure Report
+          echo ""
+          echo "===== environment.properties ====="
+          cat build/allure-results/environment.properties
+
+      - name: 8. Generate Allure Report
         if: always()
         continue-on-error: true
         uses: simple-elf/allure-report-action@master
@@ -66,14 +77,14 @@ jobs:
           gh_pages: justin-gh-pages
           allure_history: allure-history
 
-      - name: 8. Upload Allure Report
+      - name: 9. Upload Allure Report Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: allure-report
 
-      - name: 9. Deploy Allure Report
+      - name: 10. Deploy Allure Report
         if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -81,7 +92,7 @@ jobs:
           publish_dir: allure-history
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 10. Print Report URL
+      - name: 11. Print Report URL
         if: always()
         run: |
           echo "Allure Report URL:"
